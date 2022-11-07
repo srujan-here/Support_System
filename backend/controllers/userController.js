@@ -1,11 +1,12 @@
 const asynHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
-const jwt =require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 //@desc Register new user
 //@route api/users
 //access Public
 const registerUser = asynHandler(async (req, res) => {
+  // console.log("called")
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
     res.status(400);
@@ -36,7 +37,7 @@ const registerUser = asynHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      token:generateToken(user._id)
+      token: generateToken(user._id),
     });
   } else {
     res.status(400);
@@ -49,7 +50,7 @@ const registerUser = asynHandler(async (req, res) => {
 });
 
 //@desc login user
-//@route api/users
+//@route api/users/login
 //access Public
 
 const loginUser = asynHandler(async (req, res) => {
@@ -61,8 +62,7 @@ const loginUser = asynHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      token:generateToken(user._id)
-
+      token: generateToken(user._id),
     });
   } else {
     res.status(401);
@@ -70,12 +70,29 @@ const loginUser = asynHandler(async (req, res) => {
   }
 });
 
-const generateToken =(id) => {
-    return jwt.sign({id},process.env.JWT_SECRET,{
-        expiresIn:'30d',
-    })
-}
+//@desc login user
+//@route api/users/me
+//access Private
+
+const getMe = asynHandler(async (req, res) => {
+  const user={
+    id:req.user._id,
+    email:req.user.email,
+    name:req.user.name
+
+  }
+
+  res.status(200).json(user);
+});
+
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
+};
+
 module.exports = {
   registerUser,
   loginUser,
+  getMe,
 };
