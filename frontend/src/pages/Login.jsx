@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { login } from "../features/auth/authSllice";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +11,11 @@ const Login = () => {
     password: "",
   });
 
-  const {  email, password } = formData;
+  const { email, password } = formData;
+  const dispatch=useDispatch();
+  const {user ,isLoading,isSuccess,message} =useSelector(state=>state.auth)
+
+
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -21,7 +27,8 @@ const Login = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     console.log("caled");
-   
+    const user = { email, password };
+    dispatch(login(user));
   };
 
   return (
@@ -35,7 +42,6 @@ const Login = () => {
 
       <section className="form">
         <form onSubmit={onSubmit}>
-         
           <div className="form-group">
             <input
               type="email"
@@ -60,7 +66,7 @@ const Login = () => {
               required
             />
           </div>
-        
+
           <div className="form-group">
             <button className="btn btn-block">Submit</button>
           </div>

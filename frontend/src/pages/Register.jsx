@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-
+import {useSelector,useDispatch} from 'react-redux'
+import {register} from '../features/auth/authSllice'
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,9 @@ const Register = () => {
   });
 
   const { name, email, password, password2 } = formData;
+
+  const dispatch = useDispatch();
+  const {user ,isLoading,isSuccess,message} =useSelector(state=>state.auth)
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -27,6 +31,14 @@ const Register = () => {
     console.log("caled")
     if(password!==password2){
         toast.error("wrong password")
+    }else{
+      const user={
+        name,
+        email, 
+        password,
+      }
+
+      dispatch(register(user))
     }
 
 
@@ -37,7 +49,7 @@ const Register = () => {
     <>
       <section className="heading">
         <h1>
-          <FaUser /> Register
+          <FaUser /> Register {user}
         </h1>
         <p>Please create an account</p>
       </section>
