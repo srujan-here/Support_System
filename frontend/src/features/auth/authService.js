@@ -1,8 +1,10 @@
 import axios from "axios";
-const API_URL = "api/users";
+const API_URL = "http://localhost:3005/api/users";
 
 const register = async (userData) => {
-  const response = await axios.request(API_URL, userData);
+console.log("came to service")
+  const response = await axios.post(API_URL, userData);
+  console.log(response);
 
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));

@@ -1,7 +1,7 @@
 import { Button } from "@chakra-ui/react";
 import React from "react";
 import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -12,10 +12,9 @@ const Header = () => {
 
       <ul>
         <li>
-          <button className="btn" >
+          <button className="btn">
             <FaSignOutAlt /> Logout
           </button>
-          
         </li>
 
         <li>
