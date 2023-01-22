@@ -8,13 +8,16 @@ const jwt = require("jsonwebtoken");
 const registerUser = asynHandler(async (req, res) => {
   // console.log("called")
   const { name, email, password } = req.body;
+  // console.log("heyy")
   if (!name || !email || !password) {
+    console.log('exit');
     res.status(400);
-    throw new error("please include all the fields");
+    throw new Error("please include all the fields");
   }
   //find user already registered
   const userExists = await User.findOne({ email });
   if (userExists) {
+    // console.log("exit");
     res.status(400);
     throw new Error("user already exists");
   }
@@ -33,6 +36,7 @@ const registerUser = asynHandler(async (req, res) => {
   });
 
   if (user) {
+    console.log(user)
     res.status(201).json({
       _id: user._id,
       name: user.name,
@@ -41,7 +45,7 @@ const registerUser = asynHandler(async (req, res) => {
     });
   } else {
     res.status(400);
-    throw new error("invalid user details");
+    throw new Error("invalid user details");
   }
 
   res.send("reister user");
