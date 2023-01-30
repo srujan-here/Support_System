@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { FaUser } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import {useSelector,useDispatch} from 'react-redux'
-import {register} from '../features/auth/authSllice'
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { register,reset } from "../features/auth/authSllice";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -14,36 +14,50 @@ const Register = () => {
   });
 
   const { name, email, password, password2 } = formData;
+  const navigate = useNavigate()
 
   const dispatch = useDispatch();
-  const {user ,isLoading,isSuccess,message} =useSelector(state=>state.auth)
+  const { user, isLoading, isSuccess,isError, message } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(()=>{
+    if(isError){
+      toast.error(message)
+    }
+    if(isSuccess || user){
+      navigate('/')
+    }
+
+    dispatch(reset())
+
+  },[isError,isSuccess,message])
 
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
-    }))
-  }
-
+    }));
+  };
 
   const onSubmit = (e) => {
-    e.preventDefault()
-    console.log("caled")
-    if(password!==password2){
-        toast.error("wrong password")
-    }else{
-      const user={
+    e.preventDefault();
+    console.log("caled");
+    if (password !== password2) {
+      toast.error("wrong password");
+    } else {
+      const user = {
         name,
-        email, 
+        email,
         password,
-      }
+      };
 
-      dispatch(register(user))
+      dispatch(register(user));
     }
+  };
 
 
 
-  }
 
   return (
     <>
@@ -105,7 +119,7 @@ const Register = () => {
             />
           </div>
           <div className="form-group">
-            <button className="btn btn-block" >Submit</button>
+            <button className="btn btn-block">Submit</button>
           </div>
         </form>
       </section>
