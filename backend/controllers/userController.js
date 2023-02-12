@@ -10,7 +10,7 @@ const registerUser = asynHandler(async (req, res) => {
   const { name, email, password } = req.body;
   // console.log("heyy")
   if (!name || !email || !password) {
-    console.log('exit');
+    console.log("exit");
     res.status(400);
     throw new Error("please include all the fields");
   }
@@ -36,7 +36,7 @@ const registerUser = asynHandler(async (req, res) => {
   });
 
   if (user) {
-    console.log(user)
+    console.log(user);
     res.status(201).json({
       _id: user._id,
       name: user.name,
@@ -79,12 +79,11 @@ const loginUser = asynHandler(async (req, res) => {
 //access Private
 
 const getMe = asynHandler(async (req, res) => {
-  const user={
-    id:req.user._id,
-    email:req.user.email,
-    name:req.user.name
-
-  }
+  const user = {
+    id: req.user._id,
+    email: req.user.email,
+    name: req.user.name,
+  };
 
   res.status(200).json(user);
 });

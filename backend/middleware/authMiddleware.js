@@ -11,11 +11,15 @@ const protect = asynHandler(async (req, res, next) => {
   ) {
     try {
       //get token from header
+      // console.log(req.headers.authorization);
+      
       token = req.headers.authorization.split(" ")[1];
       //get user form token
       const decode = jwt.verify(token, process.env.JWT_SECRET);
       //get user from token
-      req.user = await User.findById(decode.id).select("-password");
+      // req.user = await User.findById(decode.id).select("-password");
+      req.user = await User.findById(decode.id)
+      // console.log(req.user);
       next();
     } catch (err) {
       console.log(err);

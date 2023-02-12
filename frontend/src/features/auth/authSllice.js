@@ -4,7 +4,7 @@ const userdata = localStorage.getItem("user");
 // console.log(JSON.stringify(userdata));
 
 const initialState = {
-  user: "srujan",
+  user: userdata?userdata:"",
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -31,7 +31,13 @@ export const register = createAsyncThunk(
 //login
 
 export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
-  console.log(user);
+ try {
+  return await authservice.login(user)
+  
+ } catch (err) {
+  console.log(err);
+  
+ }
 });
 
 export const authSlice = createSlice({
@@ -56,6 +62,9 @@ export const authSlice = createSlice({
       });
   },
 });
+
+
+
 
 export const {reset} =authSlice.actions
 export default authSlice.reducer;

@@ -16,22 +16,25 @@ const Register = () => {
   const { name, email, password, password2 } = formData;
   const navigate = useNavigate()
 
+
   const dispatch = useDispatch();
   const { user, isLoading, isSuccess,isError, message } = useSelector(
     (state) => state.auth
   );
 
-  useEffect(()=>{
-    if(isError){
-      toast.error(message)
-    }
-    if(isSuccess || user){
-      navigate('/')
-    }
 
-    dispatch(reset())
+  // useEffect(()=>{
+  //   if(isError){
+  //     toast.error(message);
+  //   }
+  //   if(isSuccess || user){
+  //     console.log("came");
+  //     navigate('/')
 
-  },[isError,isSuccess,message])
+  //   }
+  //   dispatch(reset())
+  // },[isSuccess,isError, message,user,navigate,dispatch]);
+  
 
   const onChange = (e) => {
     setFormData((prevState) => ({

@@ -1,27 +1,30 @@
-const express = require('express');
-const colors = require('colors');
-const dotenv = require('dotenv').config();
-const {errorHandler} = require('./middleware/errorMiddleware')
-const connectDB = require('./config/db')
+const express = require("express");
+const colors = require("colors");
+const dotenv = require("dotenv").config();
+var cors = require("cors");
 
-const PORT = process.env.PORT || 5005
+const { errorHandler } = require("./middleware/errorMiddleware");
+const connectDB = require("./config/db");
+
+const PORT = process.env.PORT || 5005;
 
 //connnect to database
 
 connectDB();
 
 const app = express();
-app.use(express.json())
-app.use(express.urlencoded({ extended:false }));
+app.use(cors()); // Use this after the variable declaration
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-app.get('/', (req, res) => {
-    res.json({message: 'hai srujan'})
-})
+app.get("/", (req, res) => {
+  res.json({ message: "hai srujan" });
+});
 
-app.use('/api/users',require('./routes/userRoutes'))
-app.use(errorHandler)
+app.use("/api/users", require("./routes/userRoutes"));
+app.use(errorHandler);
 
-app.listen(PORT, ()=>{
-    console.log(`listening on port ${PORT}`);
-})
+app.listen(PORT, () => {
+  console.log(`listening on port ${PORT}`);
+});
