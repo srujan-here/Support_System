@@ -1,21 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../features/auth/authSllice";
+import { login, reset } from "../features/auth/authSlice";
+import Spinner from "../components/Spinner";
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { email, password } = formData;
-  const dispatch=useDispatch();
-  const {user ,isLoading,isSuccess,message} =useSelector(state=>state.auth)
 
-
+  const { isLoading } = useSelector((state) => state.auth);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -26,11 +26,20 @@ const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("caled");
     const user = { email, password };
-    dispatch(login(user));
+    dispatch(login(user))
+      .unwrap()
+      .then((user) => {
+        console.log(user);
+        toast.success(`Logged in as ${user.name}`);
+        navigate("/");
+      })
+      .catch(toast.error);
   };
 
+  if (isLoading) {
+    <Spinner />;
+  }
   return (
     <>
       <section className="heading">
