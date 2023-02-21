@@ -17,9 +17,7 @@ const Register = () => {
   const { name, email, password, password2 } = formData;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user, isLoading, isSuccess, isError, message } = useSelector(
-    (state) => state.auth
-  );
+  const { user, isLoading } = useSelector((state) => state.auth);
   if (isLoading) {
     <Spinner />;
   }
@@ -44,6 +42,7 @@ const Register = () => {
       dispatch(register(user))
         .unwrap()
         .then((user) => {
+          console.log(user);
           toast.success(`Registered new user - ${user.name}`);
           navigate("/");
         })
