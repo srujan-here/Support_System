@@ -9,17 +9,16 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  const onlogout = ()=>{
-    dispatch(logout())
-    dispatch(reset())
-    navigate('/')
-  }
-
+  const onlogout = () => {
+    dispatch(logout());
+    dispatch(reset());
+    navigate("/");
+  };
 
   return (
     <header className="header">
       <div className="logo">
-        <Link to="/"> SupportDesk</Link>
+        <Link to="/">Customer SupportDesk</Link>
       </div>
 
       <ul>

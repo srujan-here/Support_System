@@ -40,3 +40,10 @@ function App() {
 }
 
 export default App;
+
+
+// MONGO_URI = "mongodb+srv://srujan:3HHTrNlYRbHXDN50@cluster0.3fbp5mt.mongodb.net/?retryWrites=true&w=majority"
+// JWT_SECRET = "srujansecret"
+// PORT = 3001
+// # password
+// # 3HHTrNlYRbHXDN50
